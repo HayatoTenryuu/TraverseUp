@@ -28,14 +28,14 @@
 %% Load data
 SeeUntouched = false;
 
-system(' "traverseUp.exe" 1 1000');
+system(' "traverseUp.exe" 1 100');
 fileID = fopen("binary tree.compendium","r"); 
 data1 = textscan(fileID, "%s");
 temp1 = string(data1{1});
 newA = strsplit(temp1, "[;]");
 fclose(fileID);
 
-system(' "uglyTraverseUp.exe" 1 1000');
+system(' "uglyTraverseUp.exe" 1 100');
 fileID2 = fopen("unclean binary tree.compendium","r"); 
 data2 = textscan(fileID2, "%s");
 temp2 = string(data2{1});
@@ -144,6 +144,10 @@ for (n = 1:length(source1))
         if (n == length(source1))   
             continue;
         else
+            % This is probably not specific enough to go through and correct everything a single time and leave it.
+            % I suspect it acts as an equalizer, changing things multiple times as they begin to match each other after their initial change.
+            % The way to fix this would be to have a changed[] array with 1 if a number was changed and 0 if not. 
+            % If changed is 0, you can change this number. If changed is not zero, leave it alone.
             if (source1(m) == source1(n))
                 treeFrame(m) = min(m,n);
             else
