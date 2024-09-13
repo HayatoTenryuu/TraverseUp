@@ -1,7 +1,5 @@
 # TraverseUp
 
-## Quick info
-
 ### Purpose:
 1. I wanted to see how things looked, and I am bad at making tree plots. 
 2. Different plots gave different info, so this did turn out as a thing of beauty.
