@@ -49,7 +49,7 @@ target1 = str2num( newA(2) );
 source2 = str2num( newB(1) );
 target2 = str2num( newB(2) );
 
-%% Plot results
+%% Plot results as digraph
 
 if (length(target1) ~= length(source1))
     for x = 1:(length(source1)-length(target1))
@@ -63,11 +63,14 @@ if (length(target2) ~= length(source2))
     end
 end
 
-%{-------------------%}
-%{  Clean data plot  %}
-%{-------------------%}
 
-G = figure();
+%{---------------------------%}
+%{  Clean digraph data plot  %}
+%{---------------------------%}
+
+G = figure(1);
+
+sgtitle("Connected Points Shown as Network" + newline);
 
 if (SeeUntouched)
     T = subplot(1, 2, 1);
@@ -91,9 +94,10 @@ else
     t1.NodeLabelMode = "auto";
 end
 
-%{-------------------%}
-%{  Dirty data plot  %}
-%{-------------------%}
+
+%{---------------------------%}
+%{  Dirty digraph data plot  %}
+%{---------------------------%}
 
 if (SeeUntouched)
     W = subplot(1, 2, 2); 
@@ -116,3 +120,53 @@ else
 
     w1.NodeLabelMode = "auto";
 end
+
+
+%% Plot results as tree
+
+%{
+countTargs = 0;
+
+for (n = 1:length(target1))
+    yesno = ismember(target1(n), source1);
+    if (yesno == 1)
+        countTargs = countTargs + 1;
+    end
+end 
+%}
+
+countNode = length(target1);     % + countTargs;
+
+treeFrame = [1:countNode];
+
+for (n = 1:length(source1))
+    for (m = 2:length(source1))
+        if (n == length(source1))   
+            continue;
+        else
+            if (source1(m) == source1(n))
+                treeFrame(m) = min(m,n);
+            else
+                continue;
+            end
+        end
+    end
+end
+
+treeFrame = [0, treeFrame];
+
+%{------------------------%}
+%{  Clean tree data plot  %}
+%{------------------------%}
+
+G2 = figure(2);
+
+sgtitle("Connected Points Shown as Tree" + newline);
+
+treeplot(treeFrame);
+
+
+%{------------------------%}
+%{  Dirty tree data plot  %}
+%{------------------------%}
+
