@@ -63,28 +63,56 @@ if (length(target2) ~= length(source2))
     end
 end
 
-% Clean data plot
-F1 = figure(1);
+%{-------------------%}
+%{  Clean data plot  %}
+%{-------------------%}
+
+G = figure();
 
 if (SeeUntouched)
-    T = plot( digraph (source1, target1), "ArrowSize", 5);
-    T.NodeLabelMode = "auto";
+    T = subplot(1, 2, 1);
+    t1 = plot( digraph(source1, target1), ArrowSize = 5 );
+
+    title("Why is this a neural net?")
+
+    set( get(T,'XLabel'), 'String', 'Data cleaned for duplication' );
+
+    t1.NodeLabelMode = "auto";
 else
     [u, ~, w] = unique( [source1, target1] );
 
-    T = plot( digraph( w(1:floor(end/2)), w(ceil(end/2)+1:end), [], cellstr(num2str(u.')) ), "ArrowSize", 5 );
-    T.NodeLabelMode = "auto";
+    T = subplot(1, 2, 1);
+    t1 = plot( digraph( w(1:floor(end/2)), w(ceil(end/2)+1:end), [], cellstr(num2str(u.')) ), ArrowSize = 5 );
+
+    title("Why is this a neural net?")
+
+    set( get(T,'XLabel'), 'String', 'Data cleaned for duplication' );
+
+    t1.NodeLabelMode = "auto";
 end
 
-% Dirty data plot
-F2 = figure(2);
+%{-------------------%}
+%{  Dirty data plot  %}
+%{-------------------%}
 
 if (SeeUntouched)
-    W = plot( digraph (source2, target2), "ArrowSize", 5);
-    W.NodeLabelMode = "auto";
+    W = subplot(1, 2, 2); 
+    w1 = plot( digraph(source2, target2), ArrowSize = 5 );
+
+    title("Why is this biological?")
+
+    set( get(W,'XLabel'), 'String', 'Data not cleaned for duplication' );
+
+    w1.NodeLabelMode = "auto";
 else
     [g, ~, h] = unique( [source2, target2] );
 
-    W = plot( digraph( h(1:floor(end/2)), h(ceil(end/2)+1:end), [], cellstr(num2str(g.')) ), "ArrowSize", 3 );
-    W.NodeLabelMode = "auto";
+    W = subplot(1, 2, 2);
+    w1 = plot( digraph( h(1:floor(end/2)), h(ceil(end/2)+1:end), [], cellstr(num2str(g.')) ), ArrowSize = 3 );
+
+    title("Why is this biological?")
+
+    set( get(W,'XLabel'), 'String', 'Data not cleaned for duplication' );
+
+    w1.NodeLabelMode = "auto";
 end
