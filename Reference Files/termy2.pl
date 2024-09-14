@@ -11,6 +11,7 @@
 
 :- set_prolog_flag(answer_write_options,[max_depth(0)]).			% Make Prolog print all values in a list, instead of truncating the list [a, b, c, | ...].
 :- set_prolog_flag(double_quotes, chars).							% Converts strings into character lists.
+:- set_prolog_flag(verbose, silent).								% Stop the banner from appearing in other terminals.
 
 :- use_module(library(clpfd)).										% Load the library including "#=" integer arithmetic.
 :- use_module(library(lists)).										% Load the library for list manipulation, including reversing the list.
@@ -249,6 +250,8 @@ saveUpList(SourceList, TargetList) :-
 
 /* Take a number and traverse up from Input to Limit */
 traverseUp(Input, Limit, Tree) :-
+	% write_canonical(Input),
+	% nl,
 	(atom(Input) ->  
 	(
 		atom_string(Input, String), 
@@ -266,13 +269,19 @@ traverseUp(Input, Limit, Tree) :-
 		T2 = Limit
 	)),
 	increment(T, T2, [], Tree),
-	/*show(Tree),
-	bbtToList(Tree, List),*/
+	/*
+	show(Tree),
+	bbtToList(Tree, List),
+	*/
 	bbtHandler(Tree, Source, Target),
-	/*write(Source),
+	
+	/*
+	write(Source),
 	nl,
 	write(Target),
-	nl,*/
+	nl,
+	*/
+	
 	saveUpList(Source, Target).
 
 
