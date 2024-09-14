@@ -21,6 +21,16 @@
 /*         Useful Things          */
 /*--------------------------------*/
 
+/* Test if Input is odd */
+odd(Input) :-
+	integer(Input),
+	Input #> 0,
+	Input>>1 #= (Input-1) rdiv 2.
+	
+	%% Note: I was hoping this could be used as a definition if used in reverse, but it cannot be because the last bit of the Input binary is lost.
+	%% I made a thread on SWI-Prolog forum to see if we could make a reversible odd/3, but I'm not sure I'd know what to do with it even if we can.
+	
+
 /* Convert a list to a balanced binary tree */
 /* Source: https://stackoverflow.com/questions/69876440/creating-binary-tree-in-prolog */
 listToBBT(List, Tree) :-
@@ -336,16 +346,22 @@ increment(Input, Limit, InList, Tree) :-
 	
 /* Find the next value of the Collatz chain when odd */
 pathUpA(Input, Output) :-
-	Input #= ((3*X) + 1),
-	integer(X) -> Output #= X; Output #= 0.
+	X is (Input - 1) rdiv 3,
+	(integer(X) -> 
+	(
+		(odd(X) ->
+		(
+			Output #= X
+		); 
+		(
+			Output #= 0
+		))
+	);
+	(
+		Output #= 0
+	)).
 	
-	% Note that this version of pathDownA works both backwards and forwards, since we are using rdiv. 
-	% If we used div, /, regardless of what equal sign we use, it will not go in reverse. 
-	
-	% Another important note -> In order to see all numbers attached in these chains, 
-	% we are not accounting for "rdiv 2" because we will hit that on the next round of pathUpB.
-	
-	% Final note, since we are going up, we are inputting the 3x+1 and outputting x. 
+	% Note, since we are going up, we are inputting the 3x+1 value and outputting x. 
 	% We have included an if-statement in case this leads to non-integers (like the case of input = 2).
 	
 	
@@ -354,7 +370,7 @@ pathUpB(Input, Output) :-
 	Input #= X rdiv 2,
 	integer(X) -> Output #= X; Output #= 0.
 	
-	% Note that this version of pathDownA works both backwards and forwards, since we are using rdiv. 
+	% Note that this version of pathUpB works both backwards and forwards, since we are using rdiv. 
 	% If we used div, /, regardless of what equal sign we use, it will not go in reverse.
 
 	% Final note, since we are going up, we are inputting the x/2 and outputting x.
