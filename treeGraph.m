@@ -19,11 +19,17 @@
 
 %}
 
+
+%% Startup
+
+clear;
+clc;
+
 %% Call Prolog and Load data
 SeeUntouched = false;
 
 Start = 1;
-Limit = 30000;
+Limit = 100000;
 
 startString = string(Start);
 limitString = string(Limit);
@@ -76,9 +82,12 @@ for (n = 1:length(all))
     end
 end
 
-smallestOutcast = min(outcast);
 fprintf("There are " + length(outcast) + " outcasts out of " + ...
-    max(target1) + " numbers" + newline);
+    max(target1) + " numbers." + newline);
+fprintf("That's " + (100 * (length(outcast) / max(target1))) + "%% " + ...
+    "of the values unattached so far!" + newline);
+fprintf(newline + "You might be surprised to learn that the smallest " + ...
+    "unattached number is " + min(outcast) + "." + newline);
 
 %% Plot results as digraph
 
