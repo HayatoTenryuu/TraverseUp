@@ -109,6 +109,7 @@ end
 %{---------------------------%}
 
 G = figure(1);
+G.WindowState = "maximized";
 
 sgtitle("Connected Points Shown as Network" + newline);
 
@@ -176,32 +177,23 @@ end
 
 %% Plot results as tree
 
-%{
-countTargs = 0;
-
-for (n = 1:length(target1))
-    yesno = ismember(target1(n), source1);
-    if (yesno == 1)
-        countTargs = countTargs + 1;
-    end
-end 
-%}
-
-countNode = length(target1);     % + countTargs;
+countNode = length(target1);     
 
 treeFrame = [1:countNode];
+changed = zeros(1, length(treeFrame));
 
 for (n = 1:length(source1))
     for (m = 2:length(source1))
         if (n == length(source1))   
             continue;
         else
-            % This is probably not specific enough to go through and correct everything a single time and leave it.
-            % I suspect it acts as an equalizer, changing things multiple times as they begin to match each other after their initial change.
-            % The way to fix this would be to have a changed[] array with 1 if a number was changed and 0 if not. 
-            % If changed is 0, you can change this number. If changed is not zero, leave it alone.
             if (source1(m) == source1(n))
-                treeFrame(m) = min(m,n);
+                if (changed(m) == 0)
+                    treeFrame(m) = min(m,n);
+                    changed(m) = 1;
+                else
+                    continue;
+                end
             else
                 continue;
             end
@@ -210,14 +202,19 @@ for (n = 1:length(source1))
 end
 
 treeFrame = [0, treeFrame];
+changed = [0, changed];
+totalList = string([1, target1]);
+
 
 %{------------------------%}
 %{  Clean tree data plot  %}
 %{------------------------%}
 
 G2 = figure(2);
+G2.WindowState = "maximized";
 
 sgtitle("Connected Points Shown as Tree" + newline);
 
-treeplot(treeFrame);
-
+treeplot(treeFrame, "or");
+[x,y] = treelayout(treeFrame);
+text(x + 1/(2*Limit), y + 1/(2*Limit), totalList);
