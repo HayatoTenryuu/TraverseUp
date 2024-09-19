@@ -6,16 +6,13 @@ function treeGraph(StartVal, LimitVal, diPlot, disconPlot, cirPlot, diVid, cirVi
     %
     % It then loads the COMPENDIUM file that is created and graphs
     % the numerical relationships as a directed graph.
-    %
-    % Note: The default behavior is to filter out extra nodes, but
-    % I have left in code to include them if you want that.
+
+    
+    %% Future Improvements
     
     %{
     
-    1. Optimize Prolog code to be faster and prune earlier (currently doesn't much).
-        This is to deal with issues regarding higher numbers than 1000 taking forever
-        to process, which may be a bug in the Prolog code, or is due to the higher 
-        number of branches in the trees when it takes that long to return to 1.
+    1. It will be faster and prettier in Qt/C++ w/Matplot++.
     
     %}
     
